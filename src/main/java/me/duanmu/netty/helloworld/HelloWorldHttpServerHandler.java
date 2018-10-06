@@ -13,13 +13,17 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
 
+import java.net.URI;
+
 /**
- * Desc: 自定义Http处理器
+ * Desc: 自定义Http处理器，继承SimpleChannelInboundHandler，Inbound表示网络请求中进来的请求
  * Date: 2018/10/5
  *
  * @author duanzhengqiang
  */
 public class HelloWorldHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+
+    private static final String FAVICON_ICO = "/favicon.ico";
 
     /**
      * 读取客户端请求，处理请求，然后返回响应给客户端
@@ -35,7 +39,17 @@ public class HelloWorldHttpServerHandler extends SimpleChannelInboundHandler<Htt
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        System.out.println(msg.getClass());
+        System.out.println(ctx.channel().remoteAddress());
+        Thread.sleep(10000);
         if (msg instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) msg;
+            System.out.println("channelRead0");
+            URI uri = new URI(httpRequest.uri());
+            if (FAVICON_ICO.equals(uri.getPath())) {
+                System.out.println("请求favicon.ico");
+                return;
+            }
             //创建响应内容，存储在ByteBuf中
             ByteBuf content = Unpooled.copiedBuffer("Hello World Netty", CharsetUtil.UTF_8);
             //创建响应对象，需要制定HTTP版本，状态码及内容
@@ -45,6 +59,43 @@ public class HelloWorldHttpServerHandler extends SimpleChannelInboundHandler<Htt
             response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
             //返回内容，如果不flush，数据会存储在缓冲区，而不会返回客户端
             ctx.writeAndFlush(response);
+            ctx.channel().close();
         }
+    }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelRegistered");
+        super.channelRegistered(ctx);
+    }
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelUnregistered");
+        super.channelUnregistered(ctx);
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelActive");
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelInactive");
+        super.channelInactive(ctx);
+    }
+
+    @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("handlerAdded");
+        super.handlerAdded(ctx);
+    }
+
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("handlerRemoved");
+        super.handlerRemoved(ctx);
     }
 }
