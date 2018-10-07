@@ -1,4 +1,4 @@
-package me.duanmu.netty.helloworld;
+package me.duanmu.netty.http;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,12 +7,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * Desc: 响应客户端请求，返回HelloWorld
+ * Desc: 响应Http请求，返回HelloWorld
  * Date: 2018/10/5
  *
  * @author duanzhengqiang
  */
-public class HelloWorldServer {
+public class HttpServer {
 
     public static void main(String[] args) throws InterruptedException {
         //创建线程组，NioEventLoopGroup理解成死循环，不停地提供服务
@@ -28,7 +28,7 @@ public class HelloWorldServer {
             serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     //添加服务初始化处理，在初始化处理中，想pipeline中添加不同的handler
-                    .childHandler(new HelloWorldInitializer());
+                    .childHandler(new HttpServerInitializer());
 
             //服务启动绑定端口
             ChannelFuture channelFuture = serverBootstrap.bind(9999).sync();

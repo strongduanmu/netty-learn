@@ -1,4 +1,4 @@
-package me.duanmu.netty.helloworld;
+package me.duanmu.netty.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -21,7 +21,7 @@ import java.net.URI;
  *
  * @author duanzhengqiang
  */
-public class HelloWorldHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     private static final String FAVICON_ICO = "/favicon.ico";
 

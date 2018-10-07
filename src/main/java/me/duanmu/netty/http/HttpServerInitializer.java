@@ -1,4 +1,4 @@
-package me.duanmu.netty.helloworld;
+package me.duanmu.netty.http;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -11,7 +11,7 @@ import io.netty.handler.codec.http.HttpServerCodec;
  *
  * @author duanzhengqiang
  */
-public class HelloWorldInitializer extends ChannelInitializer<SocketChannel> {
+public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
 
     /**
      * Channel一旦建立，就会调用initChannel方法，类似于一个回调方法
@@ -26,6 +26,6 @@ public class HelloWorldInitializer extends ChannelInitializer<SocketChannel> {
         //添加对http请求的处理器
         pipeline.addLast("httpServerCodec", new HttpServerCodec());
         //添加自定义http处理器，不指定名称，netty会创建一个name
-        pipeline.addLast("helloWorldHttpServerHandler", new HelloWorldHttpServerHandler());
+        pipeline.addLast("httpServerHandler", new HttpServerHandler());
     }
 }
