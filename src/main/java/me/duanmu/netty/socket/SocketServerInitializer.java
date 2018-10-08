@@ -10,7 +10,7 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
 /**
- * Desc: 描述
+ * Desc: Socket服务端初始化
  * Date: 2018/10/7
  *
  * @author duanzhengqiang

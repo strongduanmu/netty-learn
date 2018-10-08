@@ -17,6 +17,7 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         //打印来自服务端的消息，并向服务端发送消息
         System.out.println("server ip: " + ctx.channel().remoteAddress() + ", server msg: " + msg);
+        Thread.sleep(2000);
         ctx.channel().writeAndFlush("from client " + LocalDateTime.now());
     }
 

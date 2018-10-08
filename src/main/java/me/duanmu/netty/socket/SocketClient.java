@@ -6,6 +6,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.time.LocalDateTime;
+
 /**
  * Desc: Socket服务客户端
  * Date: 2018/10/7
@@ -24,6 +26,7 @@ public class SocketClient {
                     .handler(new SocketClientInitializer());
             //连接服务端
             ChannelFuture channelFuture = bootstrap.connect("localhost", 9999).sync();
+            channelFuture.channel().writeAndFlush("from client " + LocalDateTime.now() + " start");
             channelFuture.channel().closeFuture().sync();
         } finally {
             //优雅关闭
