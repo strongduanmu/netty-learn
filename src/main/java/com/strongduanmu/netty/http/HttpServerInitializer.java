@@ -1,4 +1,4 @@
-package me.duanmu.netty.http;
+package com.strongduanmu.netty.http;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -16,13 +16,12 @@ public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
     /**
      * Channel一旦建立，就会调用initChannel方法，类似于一个回调方法
      *
-     * @param ch
-     * @throws Exception
+     * @param socketChannel
      */
     @Override
-    protected void initChannel(SocketChannel ch) throws Exception {
+    protected void initChannel(SocketChannel socketChannel) {
         //通过SocketChannel获取ChannelPipeline（包含多个ChannelHandler，ChannelHandler相当于拦截器）
-        ChannelPipeline pipeline = ch.pipeline();
+        ChannelPipeline pipeline = socketChannel.pipeline();
         //添加对http请求的处理器
         pipeline.addLast("httpServerCodec", new HttpServerCodec());
         //添加自定义http处理器，不指定名称，netty会创建一个name

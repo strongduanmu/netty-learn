@@ -1,4 +1,4 @@
-package me.duanmu.netty.socket;
+package com.strongduanmu.netty.socket;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

@@ -1,4 +1,4 @@
-package me.duanmu.netty.socket;
+package com.strongduanmu.netty.socket;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;

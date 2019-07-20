@@ -1,4 +1,4 @@
-package me.duanmu.netty.http;
+package com.strongduanmu.netty.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -59,6 +59,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
             response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
             //返回内容，如果不flush，数据会存储在缓冲区，而不会返回客户端
             ctx.writeAndFlush(response);
+            //主动关闭连接，会导致无法实现http1.1 keep alive复用
             ctx.channel().close();
         }
     }

@@ -1,4 +1,4 @@
-package me.duanmu.netty.im;
+package com.strongduanmu.netty.im;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -17,7 +17,7 @@ import io.netty.util.CharsetUtil;
 public class IMServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
-    protected void initChannel(SocketChannel ch) throws Exception {
+    protected void initChannel(SocketChannel ch) {
         //根据分隔符进行解码
         ch.pipeline().addLast(new DelimiterBasedFrameDecoder(4096, Delimiters.lineDelimiter()));
         ch.pipeline().addLast(new StringDecoder(CharsetUtil.UTF_8));
