@@ -31,10 +31,10 @@ public class IMServerHandler extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         Channel channel = ctx.channel();
         channelGroup.forEach(ch -> {
-            if (ch.id() != channel.id()) {
-                ch.writeAndFlush(ch.remoteAddress() + "发送消息：" + msg + "\n");
+            if (ch != channel) {
+                ch.writeAndFlush("【" + channel.remoteAddress() + "】发送消息：" + msg + "\n");
             } else {
-                channel.writeAndFlush("自己发送消息：" + msg + "\n");
+                channel.writeAndFlush("【自己】发送消息：" + msg + "\n");
             }
         });
 
@@ -71,6 +71,7 @@ public class IMServerHandler extends SimpleChannelInboundHandler<String> {
         channelGroup.writeAndFlush("[服务器]" + channel.remoteAddress() + "离开\n");
         //netty在channel断开连接时，会自动地从channelGroup中删除该channel
         //channelGroup.remove(channel);
+        System.out.println("ChannelGroup size:" + channelGroup.size());
     }
 
     /**

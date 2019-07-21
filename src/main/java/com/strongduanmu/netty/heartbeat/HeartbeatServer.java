@@ -1,32 +1,34 @@
-package com.strongduanmu.netty.im;
+package com.strongduanmu.netty.heartbeat;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 /**
- * Desc: 聊天服务端
- * Date: 2018/10/9
+ * Desc: 心跳示例服务端
+ * Date: 2019-07-21
  *
  * @author duanzhengqiang
  */
-public class IMServer {
+public class HeartbeatServer {
 
     public static void main(String[] args) throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
+            //针对bossGroup添加LoggingHandler
             ServerBootstrap serverBootstrap = new ServerBootstrap();
-            //线程模型、IO模型、初始化Handler
             serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new IMServerInitializer());
-            //绑定端口
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new HeartbeatInitializer());
+
             ChannelFuture channelFuture = serverBootstrap.bind(8888).sync();
-            //关闭服务
             channelFuture.channel().closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
