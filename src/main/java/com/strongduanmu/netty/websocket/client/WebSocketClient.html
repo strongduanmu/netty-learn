@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocketClient</title>
+</head>
+<script src="jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    let socket;
+    //判断浏览器是否支持WebSocket
+    if (window.WebSocket) {
+        socket = new WebSocket("ws://localhost:8888/ws");
+
+        //如果调用WebSocket成功，收到服务端返回消息，则会执行，类似于服务端的channelRead0方法
+        socket.onmessage = function (ev) {
+            const response_text = $("#response").val();
+            $("#response").val(response_text + "\n" + ev.data);
+        };
+
+        //如果WebSocket连接开启，则在返回框中提示连接开启
+        socket.onopen = function () {
+            $("#response").val("连接开启！");
+        };
+
+        //如果WebSocket连接关闭，则在返回框中提示连接关闭
+        socket.onclose = function () {
+            const response_text = $("#response").val();
+            $("#response").val(response_text + "\n连接关闭！");
+        };
+    } else {
+        alert("浏览器不支持WebSocket！");
+    }
+
+    function clear_msg() {
+        $("#response").val("");
+    }
+
+    function send_msg() {
+        if (!window.WebSocket) {
+            alert("浏览器不支持WebSocket！");
+            return;
+        }
+        //检查WebSocket状态是否为OPEN，是则向服务端发送消息
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send($("#message").val());
+        } else {
+            alert("连接尚未开启！");
+        }
+    }
+</script>
+<body>
+<form onsubmit="return false;">
+    <label for="message">发送客户端数据：</label><br/>
+    <textarea id="message" name="message" style="width:50%; height:300px;"></textarea><br/>
+    <input type="button" value="发送数据" onclick="send_msg()"><br/>
+    <hr/>
+    <label for="response">接收服务端数据：</label><br/>
+    <textarea id="response" name="response" style="width:50%; height:300px;"></textarea><br/>
+    <input type="button" value="清空数据" onclick="clear_msg()"><br/>
+</form>
+</body>
+</html>
