@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package netty.protobuf;
+
+option optimize_for = SPEED;
+option java_package = "com.strongduanmu.netty.multi.message";
+option java_outer_classname = "ProductProtocol";
+
+message ProductMessage {
+    enum Type {
+        BASIC_TYPE = 1;
+        PROMOTION_TYPE = 2;
+        IMG_TYPE = 3;
+    }
+
+    required Type product_type = 1 [default = BASIC_TYPE]; //默认为第一个枚举类型
+
+    /* oneof 定义的消息会和外层的unique number遵循一致规则，不能重复 */
+    oneof OneOfType {
+        ProductBasicInfo basic_info = 2;
+        ProductPromotionInfo promotion_info = 3;
+        ProductImgInfo img_info = 4;
+    }
+}
+
+message ProductBasicInfo {
+    optional string name = 1; //商品名称
+    optional string brand = 2; //商品品牌
+    optional float sell_price = 3; //商品售价
+    optional int32 stock_num = 4; //库存数
+}
+
+message ProductPromotionInfo {
+    optional float promotion_price = 1; //促销价
+    optional int32 type = 2; //促销类型
+    optional string description = 3; //促销描述
+}
+
+message ProductImgInfo {
+    optional string url = 1; //图片url
+    optional string description = 2; //图片描述
+}
