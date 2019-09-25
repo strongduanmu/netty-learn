@@ -17,7 +17,6 @@ import io.netty.handler.logging.LoggingHandler;
 public class ProductProtobufServer {
 
     public static void main(String[] args) throws InterruptedException {
-
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
