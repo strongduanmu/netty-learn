@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package netty.protobuf;
+
+option optimize_for = SPEED;
+option java_package = "com.strongduanmu.netty.protobuf";
+option java_outer_classname = "Product";
+
+message ProductBasicInfo {
+    required string name = 1; //名称
+    optional int32 validate = 2; //有效期
+    optional string unit = 3; //单位
+}
