@@ -3,7 +3,7 @@ syntax = "proto2";
 package netty.protobuf;
 
 option optimize_for = SPEED;
-option java_package = "com.strongduanmu.netty.multi.message";
+option java_package = "com.strongduanmu.netty.protobuf.multi.message";
 option java_outer_classname = "ProductProtocol";
 
 message ProductMessage {
